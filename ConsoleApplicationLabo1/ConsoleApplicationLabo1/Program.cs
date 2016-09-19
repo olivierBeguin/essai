@@ -28,9 +28,10 @@ namespace ConsoleApplicationLabo1
                 new Pupil("Louis", 8),
             };
 
-            List<Person> listPupils = new List<Person>()
+            List<Person> listPerson = new List<Person>()
             {
                 new Person("Coco", 20),
+                new Person("Marc", 32),
             };
 
             /*
@@ -47,6 +48,13 @@ namespace ConsoleApplicationLabo1
                     
                 }
                 System.Console.Read();  
+            }
+
+            var listFusion = listPerson.Union(listPupil);
+
+            foreach (var fusion in listFusion)
+            {
+                fusion.ToString();
             }
         }
     }
