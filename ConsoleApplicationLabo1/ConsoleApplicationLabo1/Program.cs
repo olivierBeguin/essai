@@ -37,7 +37,7 @@ namespace ConsoleApplicationLabo1
             /*
             var pupilGrade1plus6 = from pupil in ListPupil
                                    where pupil.Grade == 1 && pupil.Age > 6
-                                   select pupil;*/
+                                   select pupil;
             var pupilGrade1plus6 = listPupil.Where(Pupil => Pupil.Grade == 1 && Pupil.Age > 6);
 
             if (pupilGrade1plus6 != null)
@@ -55,7 +55,8 @@ namespace ConsoleApplicationLabo1
             foreach (var fusion in listFusion)
             {
                 fusion.ToString();
-            }
+            }*/
+
         }
     }
 }
