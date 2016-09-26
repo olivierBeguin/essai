@@ -8,6 +8,7 @@ namespace ConsoleApplicationLabo1
 {
     class Pupil : Person
     {
+        public delegate string DelegatePrintActivityCompulsory(Activity activity);
         public int Grade { get; set; }
         private List<Activity> ListActivities;
         private char[] tabEval;
@@ -35,6 +36,8 @@ namespace ConsoleApplicationLabo1
                 tabEval = value;
             }
         }
+
+
 
         public Pupil(String name, int age, int grade) : base(name, age)
         {
@@ -80,5 +83,17 @@ namespace ConsoleApplicationLabo1
                 i++;
             }
         }
+
+        public string PrintPupilActivityCompulsory (DelegatePrintActivityCompulsory MyPrintActivity)
+        {
+            int numAct = 0;
+            string ch = base.ToString() + " a choisi les activités obligatoires : \n";
+            foreach (Activity activity in ListActivities)
+                if (activity.Compulsory)
+                    ch += (++numAct) + " " + MyPrintActivity(activity);
+            return ch;
+        }
+
+
     }
 }
