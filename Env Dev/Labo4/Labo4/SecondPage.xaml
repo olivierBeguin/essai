@@ -9,7 +9,7 @@
     DataContext="{Binding Source={StaticResource Locator}, Path=MainSecond}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" Margin="25">
         <StackPanel Orientation="Horizontal" Height="Auto">
             <TextBlock Text="Nom : " FontSize="20" Width="100"/>
             <TextBlock Text="{Binding SelectedStudent.Name}" FontSize="20"/>
