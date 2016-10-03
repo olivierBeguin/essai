@@ -34,10 +34,5 @@ namespace Labo3
             this.InitializeComponent();
             DataContext = listContacts;
         }
-
-        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }
