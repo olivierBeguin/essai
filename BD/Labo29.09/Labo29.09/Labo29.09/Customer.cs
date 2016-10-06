@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,9 @@ namespace Labo29._09
         public string Name { get; set; }
         public string PostCode { get; set; }
         public string Remark { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
 
     }
 }
