@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labo29.09", "Labo29.09\Labo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{237254A5-E464-4D5F-AD1A-FD0A2A461BDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFClient", "..\..\..\..\Users\etu28579\Documents\WPFClient\WPFClient.csproj", "{8A3822D2-71BB-488C-BBFA-C9C75E77F668}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFClient", "WPFClient\WPFClient.csproj", "{8A3822D2-71BB-488C-BBFA-C9C75E77F668}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

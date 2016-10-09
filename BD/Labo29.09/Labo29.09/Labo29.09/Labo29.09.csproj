@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\WPFClient\bin\Debug\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -51,11 +51,35 @@
   <ItemGroup>
     <Compile Include="CompanyContext.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="Migrations\201610061224591_InitialCreate.cs" />
+    <Compile Include="Migrations\201610061224591_InitialCreate.Designer.cs">
+      <DependentUpon>201610061224591_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610061228534_RowVersion.cs" />
+    <Compile Include="Migrations\201610061228534_RowVersion.Designer.cs">
+      <DependentUpon>201610061228534_RowVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610061229179_RowVersion1.cs" />
+    <Compile Include="Migrations\201610061229179_RowVersion1.Designer.cs">
+      <DependentUpon>201610061229179_RowVersion1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201610061224591_InitialCreate.resx">
+      <DependentUpon>201610061224591_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610061228534_RowVersion.resx">
+      <DependentUpon>201610061228534_RowVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610061229179_RowVersion1.resx">
+      <DependentUpon>201610061229179_RowVersion1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
