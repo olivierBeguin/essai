@@ -10,7 +10,7 @@ namespace BankApi.Controllers
     //[Authorize]
     public class ValuesController : ApiController
     {
-        List<string> values = new List<string> { "value1", "value2" };
+        private static List<string> values = new List<string> { "value1", "value2" };
         // GET api/values
         public IEnumerable<string> Get()
         {
