@@ -17,12 +17,18 @@
         </ProjectItem>
       </Dependencies>
     </ProjectItem>
+    <ProjectItem>
+      <Name>Adventure Works DW2014 1.cube</Name>
+      <FullPath>Adventure Works DW2014 1.cube</FullPath>
+      <Dependencies>
+        <ProjectItem>
+          <Name>Adventure Works DW2014 1.partitions</Name>
+          <FullPath>Adventure Works DW2014 1.partitions</FullPath>
+        </ProjectItem>
+      </Dependencies>
+    </ProjectItem>
   </Cubes>
   <Dimensions>
-    <ProjectItem>
-      <Name>Date.dim</Name>
-      <FullPath>Date.dim</FullPath>
-    </ProjectItem>
     <ProjectItem>
       <Name>Product.dim</Name>
       <FullPath>Product.dim</FullPath>
@@ -34,6 +40,22 @@
     <ProjectItem>
       <Name>Customer.dim</Name>
       <FullPath>Customer.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Date.dim</Name>
+      <FullPath>Date.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Currency.dim</Name>
+      <FullPath>Currency.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Geography.dim</Name>
+      <FullPath>Geography.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Internet Sales.dim</Name>
+      <FullPath>Internet Sales.dim</FullPath>
     </ProjectItem>
   </Dimensions>
   <DataSources>
