@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "IESN2016Project1", "IESN2016Project1\IESN2016Project1.dwproj", "{F240D3C5-8C4F-4962-9C66-6E918757AB55}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F240D3C5-8C4F-4962-9C66-6E918757AB55}.Development|Default.ActiveCfg = Development
+		{F240D3C5-8C4F-4962-9C66-6E918757AB55}.Development|Default.Build.0 = Development
+		{F240D3C5-8C4F-4962-9C66-6E918757AB55}.Development|Default.Deploy.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
