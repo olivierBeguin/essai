@@ -19,7 +19,7 @@ namespace Labo4.Model
 
         public override string ToString()
         {
-            return Name + " est agé de " + Age;
+            return Name + " est agé de " + Age + " ans";
         }
     }
 }
