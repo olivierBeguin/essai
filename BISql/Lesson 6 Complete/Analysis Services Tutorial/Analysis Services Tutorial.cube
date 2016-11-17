@@ -8,7 +8,7 @@
       <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
       <Value>
         <dds xmlns="">
-          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="76" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-8058" scrolltop="3890" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="75" x="23971" y="16298" backcolor="15334399" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="1" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="76" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-8058" scrolltop="3890" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="75" x="18441" y="16298" backcolor="15334399" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="1" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
             <font>
               <ddsxmlobjectstreamwrapper binary="01000000900144420100065461686f6d61" />
             </font>
@@ -2122,7 +2122,7 @@
     <DataSourceViewID>Adventure Works DW</DataSourceViewID>
   </Source>
   <MdxScripts>
-    <MdxScript dwd:design-time-name="d320f824-6631-45aa-a0fd-45fbdfee541a">
+    <MdxScript dwd:design-time-name="582d17ad-9266-444e-ab75-ffc8dec58896">
       <ID>MdxScript</ID>
       <Name>MdxScript</Name>
       <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
@@ -2134,74 +2134,228 @@ The CALCULATE command controls the aggregation of leaf cells in the cube.
 If the CALCULATE command is deleted or modified, the data within the cube is affected.
 You should edit this command only if you manually specify how the cube is aggregated.
 */
-CALCULATE;   
+CALCULATE;     
 /* Calculations to aggregate Internet Sales and Reseller Sales measures */
 CREATE MEMBER CURRENTCUBE.[Measures].[Total Sales Amount]
  AS [Measures].[Internet Sales-Sales Amount]+[Measures].[Reseller Sales-Sales Amount], 
 FORMAT_STRING = "Currency", 
 NON_EMPTY_BEHAVIOR = { [Internet Sales-Sales Amount], [Reseller Sales-Sales Amount] }, 
-VISIBLE = 1;  
+VISIBLE = 1;    
 CREATE MEMBER CURRENTCUBE.[Measures].[Total Product Cost]
  AS [Measures].[Internet Sales-Total Product Cost]+[Measures].[Reseller Sales-Total Product Cost], 
 FORMAT_STRING = "Currency", 
 NON_EMPTY_BEHAVIOR = { [Internet Sales-Total Product Cost], [Reseller Sales-Total Product Cost] }, 
-VISIBLE = 1;  
+VISIBLE = 1;   
 /* Calculations to calculate gross profit margin */
 CREATE MEMBER CURRENTCUBE.[Measures].[Internet GPM]
- AS ([Measures].[Internet Sales-Sales Amount] - [Measures].[Internet Sales-Total Product Cost]) / [Measures].[Internet Sales-Sales Amount], 
+ AS ([Measures].[Internet Sales-Sales Amount] - 
+[Measures].[Internet Sales-Total Product Cost]) /
+[Measures].[Internet Sales-Sales Amount], 
+FORMAT_STRING = "Percent", 
+NON_EMPTY_BEHAVIOR = { [Internet Sales-Sales Amount] }, 
+VISIBLE = 1;   
+CREATE MEMBER CURRENTCUBE.[Measures].[Reseller GPM]
+ AS ([Measures].[Reseller Sales-Sales Amount] - 
+[Measures].[Reseller Sales-Total Product Cost]) /
+[Measures].[Reseller Sales-Sales Amount], 
+FORMAT_STRING = "Percent", 
+NON_EMPTY_BEHAVIOR = { [Reseller Sales-Sales Amount] }, 
+VISIBLE = 1;   
+CREATE MEMBER CURRENTCUBE.[Measures].[Total GPM]
+ AS ([Measures].[Total Sales Amount] - 
+[Measures].[Total Product Cost]) /
+[Measures].[Total Sales Amount], 
+FORMAT_STRING = "Percent", 
+NON_EMPTY_BEHAVIOR = { [Internet Sales-Sales Amount], [Reseller Sales-Sales Amount] }, 
+VISIBLE = 1;  
+/* Calculations to calculate percentage of product to total product sales */
+CREATE MEMBER CURRENTCUBE.[Measures].[Internet Sales Ratio to All Products]
+ AS Case
+    When IsEmpty( [Measures].[Internet Sales-Sales Amount] ) 
+    Then 0
+    Else ( [Product].[Product Categories].CurrentMember,
+           [Measures].[Internet Sales-Sales Amount]) /
+         ( [Product].[Product Categories].[(All)].[All], 
+           [Measures].[Internet Sales-Sales Amount] )
+    End, 
 FORMAT_STRING = "Percent", 
 NON_EMPTY_BEHAVIOR = { [Internet Sales-Sales Amount] }, 
 VISIBLE = 1;  
-CREATE MEMBER CURRENTCUBE.[Measures].[Reseller GPM]
- AS ([Measures].[Reseller Sales-Sales Amount] - [Measures].[Reseller Sales-Total Product Cost]) / [Measures].[Reseller Sales-Sales Amount], 
+CREATE MEMBER CURRENTCUBE.[Measures].[Reseller Sales Ratio to All Products]
+ AS Case
+    When IsEmpty( [Measures].[Reseller Sales-Sales Amount] ) 
+    Then 0
+    Else ( [Product].[Product Categories].CurrentMember,
+           [Measures].[Reseller Sales-Sales Amount]) /
+         ( [Product].[Product Categories].[(All)].[All], 
+           [Measures].[Reseller Sales-Sales Amount] )
+    End, 
 FORMAT_STRING = "Percent", 
 NON_EMPTY_BEHAVIOR = { [Reseller Sales-Sales Amount] }, 
 VISIBLE = 1;  
-CREATE MEMBER CURRENTCUBE.[Measures].[Total GPM]
- AS ([Measures].[Total Sales Amount] - [Measures].[Total Product Cost]) / [Measures].[Total Sales Amount], 
+CREATE MEMBER CURRENTCUBE.[Measures].[Total Sales Ratio to All Products]
+ AS Case
+    When IsEmpty( [Measures].[Total Sales Amount] ) 
+    Then 0
+    Else ( [Product].[Product Categories].CurrentMember,
+           [Measures].[Total Sales Amount]) /
+         ( [Product].[Product Categories].[(All)].[All], 
+           [Measures].[Total Sales Amount] )
+    End, 
 FORMAT_STRING = "Percent", 
 NON_EMPTY_BEHAVIOR = { [Internet Sales-Sales Amount], [Reseller Sales-Sales Amount] }, 
 VISIBLE = 1; 
-
-/* Calculations to calculate percentage of product to total product sales */
-CREATE MEMBER CURRENTCUBE.[Measures].[Internet Sales Ratio to All Products]
- AS Case  
-    When IsEmpty( [Measures].[Internet Sales-Sales Amount])   
-    Then 0  
-    Else ( [Product].[Product Categories].CurrentMember, 
-    [Measures].[Internet Sales-Sales Amount]) / 
-    ( [Product].[Product Categories].[(All)].[All],   
-    [Measures].[Internet Sales-Sales Amount] )  
-    End, 
-FORMAT_STRING = "Percent", 
-NON_EMPTY_BEHAVIOR = { [Internet Sales-Sales Amount] }, 
-VISIBLE = 1  ; 
-CREATE MEMBER CURRENTCUBE.[Measures].[Reseller Sales Ratio to All Products]
- AS Case  
-    When IsEmpty( [Measures].[Reseller Sales-Sales Amount] )   
-    Then 0  
-    Else ( [Product].[Product Categories].CurrentMember,  
-    [Measures].[Reseller Sales-Sales Amount]) /  
-    ( [Product].[Product Categories].[(All)].[All],   
-    [Measures].[Reseller Sales-Sales Amount] )  
-    End, 
-FORMAT_STRING = "Percent", 
-NON_EMPTY_BEHAVIOR = { [Reseller Sales-Sales Amount] }, 
-VISIBLE = 1  ; 
-CREATE MEMBER CURRENTCUBE.[Measures].[Total Sales Ration to All Products]
- AS Case  
-    When IsEmpty( [Measures].[Total Sales Amount] )   
-    Then 0  
-    Else ( [Product].[Product Categories].CurrentMember,  
-    [Measures].[Total Sales Amount]) /  
-    ( [Product].[Product Categories].[(All)].[All],   
-    [Measures].[Total Sales Amount] )  
-End, 
-FORMAT_STRING = "Percent", 
-NON_EMPTY_BEHAVIOR = { [Internet Sales-Sales Amount], [Reseller Sales-Sales Amount] }, 
-VISIBLE = 1  ; </Text>
+/* named sets */
+CREATE DYNAMIC SET CURRENTCUBE.[Core Products]
+ AS [Product].[Category].&amp;[1] ; 
+CREATE DYNAMIC SET CURRENTCUBE.[Large Resellers]
+ AS Exists([Reseller].[Reseller Name].[Reseller Name].Members,
+[Reseller].[Number of Employees].&amp;[4]) ; </Text>
         </Command>
       </Commands>
     </MdxScript>
   </MdxScripts>
+  <Kpis>
+    <Kpi dwd:design-time-name="be7ebfe9-6a60-4057-bf19-6642ce394c62">
+      <ID>KPI</ID>
+      <Name>Reseller Revenue</Name>
+      <AssociatedMeasureGroupID>Reseller Sales</AssociatedMeasureGroupID>
+      <Value>[Measures].[Reseller Sales-Sales Amount]</Value>
+      <Goal>[Measures].[Sales Amount Quota]</Goal>
+      <Status>Case  
+    When   
+        KpiValue("Reseller Revenue")/KpiGoal("Reseller Revenue")&gt;=.95  
+        Then 1  
+    When  
+        KpiValue("Reseller Revenue")/KpiGoal("Reseller Revenue")&lt;.95  
+        And   
+        KpiValue("Reseller Revenue")/KpiGoal("Reseller Revenue")&gt;=.85  
+        Then 0  
+    Else-1  
+End</Status>
+      <Trend>Case  
+    When IsEmpty  
+    (ParallelPeriod  
+    ([Date].[Calendar Date].[Calendar Year],1,  
+        [Date].[Calendar Date].CurrentMember))  
+    Then 0    
+    When  (  KpiValue("Reseller Revenue")-
+        (KpiValue("Reseller Revenue"), 
+        ParallelPeriod  
+    ([Date].[Calendar Date].[Calendar Year],1,  
+    [Date].[Calendar Date].CurrentMember))  
+    /  
+    (KpiValue ("Reseller Revenue"),  
+    ParallelPeriod  
+    ([Date].[Calendar Date].[Calendar Year],1,  
+    [Date].[Calendar Date].CurrentMember)))  
+    &gt;=.02  
+    Then 1  
+    When(  
+    KpiValue("Reseller Revenue") -
+    (KpiValue ( "Reseller Revenue" ),  
+    ParallelPeriod  
+    ([Date].[Calendar Date].[Calendar Year],1,  
+    [Date].[Calendar Date].CurrentMember))  
+    /  
+    (KpiValue("Reseller Revenue"),  
+        ParallelPeriod  
+        ([Date].[Calendar Date].[Calendar Year],1,  
+        [Date].[Calendar Date].CurrentMember)))  
+        &lt;=.02  
+    Then -1  
+        Else 0  
+End  </Trend>
+      <TrendGraphic>Standard Arrow</TrendGraphic>
+      <StatusGraphic>Gauge - Ascending</StatusGraphic>
+    </Kpi>
+    <Kpi dwd:design-time-name="7c681206-384b-4164-888a-b86d540af283">
+      <ID>KPI 1</ID>
+      <Name>Product Gross Profit Margin</Name>
+      <Value>[Measures].[Total GPM]</Value>
+      <Goal>Case  
+When [Product].[Category].CurrentMember Is  
+[Product].[Category].[Accessories]  
+Then .40                   
+When [Product].[Category].CurrentMember   
+Is [Product].[Category].[Bikes]  
+Then .12                  
+When [Product].[Category].CurrentMember Is  
+[Product].[Category].[Clothing]  
+Then .20  
+When [Product].[Category].CurrentMember Is  
+[Product].[Category].[Components]  
+Then .10  
+Else .12              
+End  </Goal>
+      <Status>Case  
+When KpiValue( "Product Gross Profit Margin" ) /   
+KpiGoal ( "Product Gross Profit Margin" ) &gt;= .90  
+Then 1  
+When KpiValue( "Product Gross Profit Margin" ) /   
+KpiGoal ( "Product Gross Profit Margin" ) &lt;  .90  
+And   
+KpiValue( "Product Gross Profit Margin" ) /   
+KpiGoal ( "Product Gross Profit Margin" ) &gt;= .80 
+Then 0  
+Else -1  
+End  </Status>
+      <Trend>Case  
+When IsEmpty  
+(ParallelPeriod  
+([Date].[Calendar Date]
+.[Calendar Year],1,  
+[Date].[Calendar Date].CurrentMember))  
+Then 0    
+When VBA!Abs  
+(  
+KpiValue( "Product Gross Profit Margin" ) 
+-
+(  
+KpiValue ( "Product Gross Profit Margin" ),  
+ParallelPeriod  
+(   
+[Date].[ Calendar Date].[ Calendar Year],  
+1,  
+[Date].[ Calendar Date].CurrentMember  
+)  
+) /  
+(  
+KpiValue ( "Product Gross Profit Margin" ),  
+ParallelPeriod  
+(   
+[Date].[ Calendar Date].[ Calendar Year],  
+1,  
+[Date].[ Calendar Date].CurrentMember  
+)  
+)    
+) &lt;=.02  
+Then 0  
+When KpiValue( "Product Gross Profit Margin" ) 
+-
+(  
+KpiValue ( "Product Gross Profit Margin" ),  
+ParallelPeriod  
+(   
+[Date].[ Calendar Date].[ Calendar Year],  
+1,  
+[Date].[ Calendar Date].CurrentMember  
+)  
+) /  
+(  
+KpiValue ( "Product Gross Profit Margin" ),  
+ParallelPeriod  
+(   
+[Date].[Calendar Date].[Calendar Year],  
+1,  
+[Date].[Calendar Date].CurrentMember  
+)  
+)  &gt;.02  
+Then 1  
+Else -1  
+End  </Trend>
+      <TrendGraphic>Standard Arrow</TrendGraphic>
+      <StatusGraphic>Cylinder</StatusGraphic>
+    </Kpi>
+  </Kpis>
 </Cube>
